@@ -1,7 +1,7 @@
 import { supabase } from "@/Supabase/apiEntry";
 import Image from "next/image";
 import Link from "next/link";
-export const revalidate = 0;
+export const revalidate = 3600;
 export default async function Home() {
   const { data, error } = await supabase.from("Products").select();
 
@@ -25,6 +25,7 @@ export default async function Home() {
                       alt="product image"
                       width="240"
                       height="240"
+                      quality={60}
                     />
 
                     <div className="p-5">
@@ -76,6 +77,7 @@ export default async function Home() {
                       alt="product image"
                       width="240"
                       height="240"
+                      quality={60}
                     />
 
                     <div className="p-5">
@@ -92,7 +94,7 @@ export default async function Home() {
                         price is {pd.productPrice} INR
                         <svg
                           className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                          ariaHidden="true"
+                          aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 14 10"
