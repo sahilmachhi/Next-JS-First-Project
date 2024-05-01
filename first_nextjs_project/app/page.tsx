@@ -2,6 +2,7 @@ import { supabase } from "@/Supabase/apiEntry";
 import Image from "next/image";
 import Link from "next/link";
 export const revalidate = 3600;
+import { useState } from "react";
 export default async function Home() {
   const { data, error } = await supabase.from("Products").select();
 
@@ -19,14 +20,16 @@ export default async function Home() {
               return (
                 <>
                   <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <Image
-                      className="rounded-t-lg"
-                      src={pd.productImage}
-                      alt="product image"
-                      width="240"
-                      height="240"
-                      quality={60}
-                    />
+                    {pd.productImage ? (
+                      <Image
+                        className="rounded-t-lg"
+                        src={pd.productImage}
+                        alt="product image"
+                        width="240"
+                        height="240"
+                        quality={60}
+                      />
+                    ) : null}
 
                     <div className="p-5">
                       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -71,14 +74,16 @@ export default async function Home() {
               return (
                 <>
                   <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <Image
-                      className="rounded-t-lg"
-                      src={pd.productImage}
-                      alt="product image"
-                      width="240"
-                      height="240"
-                      quality={60}
-                    />
+                    {pd.productImage ? (
+                      <Image
+                        className="rounded-t-lg"
+                        src={pd.productImage}
+                        alt="product image"
+                        width="240"
+                        height="240"
+                        quality={60}
+                      />
+                    ) : null}
 
                     <div className="p-5">
                       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
