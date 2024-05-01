@@ -58,14 +58,14 @@ function page() {
 
               <div class="sm:col-span-4">
                 <label
-                  for="number"
+                  for="productPrice"
                   class="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Product Price
                 </label>
                 <div class="mt-2">
                   <input
-                    id="price"
+                    id="productPrice"
                     name="number"
                     type="number"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -77,7 +77,7 @@ function page() {
                 <div class="mt-2">
                   <div class="col-span-full">
                     <label
-                      for="cover-photo"
+                      for="productPhoto"
                       class="block text-sm font-medium leading-6 text-gray-900"
                     >
                       Product Photo
@@ -98,13 +98,13 @@ function page() {
                         </svg>
                         <div class="mt-4 flex text-sm leading-6 text-gray-600">
                           <label
-                            for="file-upload"
+                            for="productPhoto"
                             class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                           >
                             <span>Upload a file</span>
                             <input
-                              id="file-upload"
-                              name="file-upload"
+                              id="productPhoto"
+                              name="productPhoto"
                               type="file"
                               class="sr-only"
                             />
@@ -146,14 +146,14 @@ function page() {
                   <div class="relative flex gap-x-3">
                     <div class="flex h-6 items-center">
                       <input
-                        id="comments"
+                        id="isSpacial"
                         name="comments"
                         type="checkbox"
                         class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                     </div>
                     <div class="text-sm leading-6">
-                      <label for="comments" class="font-medium text-gray-900">
+                      <label for="isSpacial" class="font-medium text-gray-900">
                         Is Spacial
                       </label>
                     </div>
