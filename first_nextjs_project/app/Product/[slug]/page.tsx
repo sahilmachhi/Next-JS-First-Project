@@ -10,21 +10,27 @@ export async function generateStaticParams() {
   });
 }
 
-async function page({ params: { slug } }) {
+type ProductData = {
+  id: Number | null | undefined;
+  productImage: string;
+  productName: string;
+  productDes: string;
+  isSpacial: Boolean;
+};
+
+async function page({ params: { slug } }: { params: { slug: string } }) {
   const { data: postData, error } = await supabase
     .from("Products")
     .select()
     .eq("id", slug);
 
+  if (error) return <h1>error showing product Data</h1>;
   return (
     <div className="h-[80vh] flex items-center justify-center flex-col gap-[10rem] p-16 md:flex-row">
-      {postData?.map((pd: object) => {
+      {postData?.map((pd: ProductData) => {
         return (
           <>
-            <div
-              className=" h-full w-full relative flex-1"
-              key={pd.id ? pd.id : null}
-            >
+            <div className=" h-full w-full relative flex-1" key={pd.id}>
               {pd.productImage ? (
                 <Image
                   src={pd.productImage}

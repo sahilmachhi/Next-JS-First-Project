@@ -1,8 +1,9 @@
 "use server";
 import { supabase } from "@/Supabase/apiEntry";
-import { error } from "console";
 import { randomUUID } from "crypto";
-import { type } from "os";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { z } from "zod";
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -12,14 +13,6 @@ const ACCEPTED_IMAGE_TYPES = [
 ];
 const MAX_FILE_SIZE = 5000000;
 export async function uploadItemForm(prevState: any, formData: FormData) {
-  // const productData = {
-  //   productName: formData.get("productName"),
-  // productDes: formData.get("productDes"),
-  // productPrice: formData.get("productPrice"),
-  // productImage: formData.get("productPhoto"),
-  //   type: formData.get("type"),
-  // };
-
   let checkbox = formData.get("isSpacial") === "on" ? true : false;
 
   let price = formData.get("productPrice");
@@ -59,20 +52,37 @@ export async function uploadItemForm(prevState: any, formData: FormData) {
       message: "Missing Fields. Failed to Create Product.",
     };
   } else {
-    console.log(validFields.data);
-    const { error: productUploadError } = await supabase
-      .from("Products")
-      .insert({
-        id: randomUUID,
-        productName: validFields.data.productName,
-        productDes: validFields.data.productDes,
-        productPrice: validFields.data.productPrice,
-        type: validFields.data.type,
-        isSpacial: validFields.data.checkbox,
-      });
+    let imageName = `${Math.random()} - ${validFields.data.productImage.name}`;
+    try {
+      const { data, error } = await supabase.storage
+        .from("ProductImage")
+        .upload(imageName, validFields.data.productImage, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+      if (error) {
+        console.log("upload image error:", error);
+      }
+      const path = `https://hoeegskedecawtnvtvok.supabase.co/storage/v1/object/public/ProductImage/${data?.path}`;
+
+      const { error: productUploadError } = await supabase
+        .from("Products")
+        .insert({
+          id: randomUUID,
+          productName: validFields.data.productName,
+          productDes: validFields.data.productDes,
+          productPrice: validFields.data.productPrice,
+          type: validFields.data.type,
+          isSpacial: validFields.data.checkbox,
+          productImage: path,
+        });
+      console.log(validFields.data);
+    } catch (error) {
+      console.log(validFields.data);
+      console.log(`data upload failed error`, error);
+    }
   }
 
-  // console.log(validFields.data);
-
-  // console.log(productUploadError);
+  revalidatePath("/");
+  redirect("/");
 }

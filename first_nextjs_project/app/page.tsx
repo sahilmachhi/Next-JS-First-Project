@@ -2,7 +2,7 @@ import { supabase } from "@/Supabase/apiEntry";
 import Image from "next/image";
 import Link from "next/link";
 export const revalidate = 3600;
-import { useState } from "react";
+
 export default async function Home() {
   const { data, error } = await supabase.from("Products").select();
 
@@ -10,6 +10,10 @@ export default async function Home() {
     .from("Products")
     .select()
     .eq("isSpacial", true);
+
+  if (spacialDataError) return <h1>error showing spacial Products</h1>;
+
+  if (error) return <h1>error showing Products</h1>;
   return (
     <>
       <div className="flex flex-col gap-36 my-10">
@@ -69,23 +73,24 @@ export default async function Home() {
         <div className="flex justify-center items-center flex-col gap-[4rem]">
           <h1 className="text-3xl font-bold">normal item</h1>
 
-          <div className="flex-row flex gap-[4rem] self-start w-full">
+          <div className="md:flex-row flex-col  flex gap-[4rem] self-start w-full flex-wrap justify-center">
             {data?.map((pd) => {
               return (
                 <>
-                  <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    {pd.productImage ? (
-                      <Image
-                        className="rounded-t-lg"
-                        src={pd.productImage}
-                        alt="product image"
-                        width="240"
-                        height="240"
-                        quality={60}
-                      />
-                    ) : null}
+                  <div className="w-[250px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <div className="relative flex-1 h-[160px]">
+                      {pd.productImage ? (
+                        <Image
+                          className="rounded-t-lg"
+                          src={pd.productImage}
+                          alt="product image"
+                          fill={true}
+                          quality={60}
+                        />
+                      ) : null}
+                    </div>
 
-                    <div className="p-5">
+                    <div className="p-5 flex-1">
                       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                         {pd.productName}
                       </h5>

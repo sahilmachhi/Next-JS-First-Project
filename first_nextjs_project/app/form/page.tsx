@@ -6,7 +6,7 @@ const initialState = {
   message: "",
   errors: null,
 };
-function page() {
+function Page() {
   const [state, formAction] = useFormState(uploadItemForm, initialState);
   return (
     <>
@@ -185,4 +185,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
